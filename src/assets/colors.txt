@@ -1,0 +1,5 @@
+dark yellow: #D79922,
+light yellow: #EFE2BA,
+red: #F13C20,
+dark blue: #4056A1,
+light blue: #C5CBE3
