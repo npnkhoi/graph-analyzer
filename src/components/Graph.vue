@@ -1,6 +1,6 @@
 // Source: https://github.com/emiliorizzo/vue-d3-network
 <template>
-  <div class="graph">
+  <div id="network" class="rounded border-2 h-auto p-2 bg-pink-100">
     <d3-network ref='net' :net-nodes="nodes" :net-links="links" :options="options" />
   </div>
 </template>
@@ -29,23 +29,36 @@ export default {
     // },
     options() {
       return {
-        force: 3000,
-        size: { w: 200, h: 200},
+        force: 4000,
+        size: { w: 400, h: 400},
         nodeSize: this.nodeSize,
         nodeLabels: true,
         linkLabels: true,
         canvas: this.canvas,
+        linkWidth: 3,
+        fontSize: 15,
       }
     }
   },
   watch: {
     graph: function(to) {
-      this.nodes = to.nodeList.map((node) => ({id: node + 1, name: node + 1, _color: '#F13C20'}))
-      this.links = to.edges.map((edge) => ({sid: edge.start + 1, tid: edge.end + 1, name: edge.weight, _color: '#D79922'}))
+      this.nodes = to.nodeList.map((node) => ({
+        id: node, 
+        name: `[${node + 1}]`, 
+      }))
+      this.links = to.edges.map((edge) => ({sid: edge.start, tid: edge.end, name: edge.weight}))
     }
   }
 }
 </script>
  
-<style>
+<style src="vue-d3-network/dist/vue-d3-network.css">
+
+#network {
+  background-color: #C5CBE3 !important;
+}
+
+.node-label {
+  color: black;
+}
 </style>

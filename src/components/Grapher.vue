@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-undef */
 <template>
 <div class="w-full flex flex-col items-center">
   <p class="text-5xl font-semibold">Graph Analyzer</p>
@@ -32,8 +30,8 @@
 
       <div class="grapher-title mt-12">Shortest path query</div>
       <br>
-      <div class="shortest-path flex flex-col items-center w-full">
-        <div class="w-full flex flex-row justify-center items-center">
+      <div class="shortest-path flex flex-col w-full">
+        <div class="w-full flex flex-row items-center mb-2">
           <p>Input 2 vertices: </p>
           <textarea 
             rows="1"
@@ -46,12 +44,14 @@
         <div>
           Shortest path of [{{shortestPathQuery}}]: {{shortestPath}}
         </div>
-        <button 
-          class="grapher-btn"
-          @click="findShortestPath()"
-        >
-          Find shortest path
-        </button>
+        <div class="flex justify-center">
+          <button 
+            class="grapher-btn"
+            @click="findShortestPath()"
+          >
+            Find shortest path
+          </button>
+        </div>
       </div>
     </div>
   </div>

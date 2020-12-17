@@ -2,7 +2,7 @@
   <div>
   <div class="grapher-title">About</div>
   <ul>
-    <li> All the vertices are numbered from 0. </li>
+    <li> All the vertices are numbered from 1. </li>
     <br>
     <li> Input format:</li>
     <li>The first line has 3 numbers: |V| |E| and 1/0 (weighted/unweighted)</li>
