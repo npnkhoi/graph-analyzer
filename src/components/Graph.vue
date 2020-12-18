@@ -10,10 +10,7 @@ import D3Network from 'vue-d3-network'
  
 export default {
   components: {D3Network},
-  props: ['graph'],
-  created: function () {
-    console.log('graph in Graph:', this.graph);
-  },
+  props: ['graph', 'highlightedEdges'],
   data () {
     return {
       nodeSize: 20,
@@ -23,10 +20,6 @@ export default {
     }
   },
   computed:{
-    // nodes: function () {
-    //   console.log('recal nodes');
-    //   return this.graph.nodeList.map((node) => ({id: node + 1}))
-    // },
     options() {
       return {
         force: 1500,
@@ -35,7 +28,7 @@ export default {
         nodeLabels: true,
         linkLabels: true,
         canvas: this.canvas,
-        linkWidth: 3,
+        linkWidth: 2,
         fontSize: 15,
       }
     }
@@ -46,7 +39,19 @@ export default {
         id: node, 
         name: `[${node + 1}]`, 
       }))
-      this.links = to.edges.map((edge) => ({sid: edge.start, tid: edge.end, name: edge.weight}))
+      this.links = to.edges.map((edge) => ({
+        sid: edge.start, 
+        tid: edge.end, 
+        name: edge.weight,
+      }))
+    },
+    highlightedEdges: function() {
+      this.links = this.graph.edges.map((edge) => ({
+        sid: edge.start, 
+        tid: edge.end, 
+        name: edge.weight,
+        _color: (this.highlightedEdges.includes(edge.id) ? 'red' : 'gray')
+      }))
     }
   }
 }
