@@ -3,7 +3,7 @@ const isValidNode = (node, numNodes) => (0 <= node && node < numNodes)
 
 const addEdge = (graph, id, a, b, weight=null) => {
   if (!isValidNode(a, graph.numNodes) || !isValidNode(b, graph.numNodes)) {
-    console.log("Invalid node", a, b, graph.numNodes);
+    console.log("[Input error] Invalid node index", a, b, graph.numNodes);
     throw "InputError: Node index out of range. Please check your node id again."
   }
   if (weight) {
@@ -22,28 +22,22 @@ const addEdge = (graph, id, a, b, weight=null) => {
 
 export const strToGraph = (input) => {
   const graph = {}
+
   const num_list = input.split(/ |\n/).map((val) => parseInt(val))
-  graph.numNodes = num_list[0]
+  graph.numNodes = 0
+  for (let i = 0; i < num_list.length; ++ i) {
+    if (i % 3 === 2) continue
+    graph.numNodes = Math.max(graph.numNodes, num_list[i])
+  }
   graph.nodeList = [...Array(graph.numNodes).keys()]
-  graph.numEdges = num_list[1]
-  graph.isWeighted = (num_list[2] === 1)
+  graph.numEdges = Math.floor(num_list.length / 3);
   graph.edges = []
   graph.adj = []
   graph.nodeList.forEach(() => {graph.adj.push([])})
-  if (graph.isWeighted) {
-    for (let i = 0; i < graph.numEdges; i ++) {
-      addEdge(graph, i, num_list[3 * i + 3] - 1, 
-        num_list[3 * i + 4] - 1, num_list[3 * i + 5])
-    }
-  } else {
-    for (let i = 0; i < graph.numEdges; i ++) {
-      graph.edges.push({
-        start: num_list[2 * i + 3],
-        end: num_list[2 * i + 4],
-      })
-    }
+  for (let i = 0; i < graph.numEdges; i ++) {
+    addEdge(graph, i, num_list[3 * i] - 1, 
+      num_list[3 * i + 1] - 1, num_list[3 * i + 2])
   }
-  console.log(graph);
   return graph
 }
 
@@ -114,7 +108,6 @@ export const getShortestPath = (graph, input) => {
     })
     if (pivot === -1) break
     fixed[pivot] = true
-    console.log('new pivot:', pivot, dist, graph.adj[pivot]);
     // update dist
     graph.adj[pivot].forEach((edge) => {
       const [node, weight] = edge
@@ -122,8 +115,6 @@ export const getShortestPath = (graph, input) => {
     })
     // find nextPivot
   }
-  console.log('shortest path returning');
-  console.log('done DJ', source, dist);
   if (dist[sink] === INF) {
     return {
       answer: "[Graph Input Error] Two nodes are not connected",

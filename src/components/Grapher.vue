@@ -98,7 +98,6 @@ export default {
       try {
         this.graph = strToGraph(input)
       } catch (e) {
-        // window.alert(e)
         console.log(e);
         return
       }

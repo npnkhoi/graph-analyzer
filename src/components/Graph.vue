@@ -11,9 +11,6 @@ import D3Network from 'vue-d3-network'
 export default {
   components: {D3Network},
   props: ['graph', 'highlightedEdges'],
-  created: function () {
-    console.log('graph in Graph:', this.graph);
-  },
   data () {
     return {
       nodeSize: 20,
@@ -31,7 +28,7 @@ export default {
         nodeLabels: true,
         linkLabels: true,
         canvas: this.canvas,
-        linkWidth: 3,
+        linkWidth: 2,
         fontSize: 15,
       }
     }
@@ -53,7 +50,7 @@ export default {
         sid: edge.start, 
         tid: edge.end, 
         name: edge.weight,
-        _color: (this.highlightedEdges.includes(edge.id) ? 'red' : 'green')
+        _color: (this.highlightedEdges.includes(edge.id) ? 'red' : 'gray')
       }))
     }
   }

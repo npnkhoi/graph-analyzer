@@ -42,9 +42,6 @@ export default {
       ],
       options: {}
     }
-  },
-  created: function () {
-    console.log(this.options.hasOwnProperty);
   }
 }
 </script>
