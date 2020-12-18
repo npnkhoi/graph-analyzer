@@ -1,7 +1,7 @@
 
 const isValidNode = (node, numNodes) => (0 <= node && node < numNodes)
 
-const addEdge = (graph, a, b, weight=null) => {
+const addEdge = (graph, id, a, b, weight=null) => {
   if (!isValidNode(a, graph.numNodes) || !isValidNode(b, graph.numNodes)) {
     console.log("Invalid node", a, b, graph.numNodes);
     throw "InputError: Node index out of range. Please check your node id again."
@@ -12,7 +12,8 @@ const addEdge = (graph, a, b, weight=null) => {
     graph.edges.push({
       start: a,
       end: b,
-      weight: weight
+      weight: weight,
+      id: id
     })
   } else {
     graph.adj[a].push(b)
@@ -31,7 +32,7 @@ export const strToGraph = (input) => {
   graph.nodeList.forEach(() => {graph.adj.push([])})
   if (graph.isWeighted) {
     for (let i = 0; i < graph.numEdges; i ++) {
-      addEdge(graph, num_list[3 * i + 3] - 1, 
+      addEdge(graph, i, num_list[3 * i + 3] - 1, 
         num_list[3 * i + 4] - 1, num_list[3 * i + 5])
     }
   } else {
@@ -81,15 +82,17 @@ export const mst = (graph, getMax) => {
   }
 
   graph.edges.sort(compare)
-  let answer = 0;
+  let answer = 0
+  const selectedEdges = []
   graph.edges.forEach(edge => {
     const nodeA = edge.start, nodeB = edge.end
     if (getRoot(nodeA) != getRoot(nodeB)) {
       mergeNode(nodeA, nodeB)
       answer += edge.weight
+      selectedEdges.push(edge.id)
     }
   });
-  return answer
+  return { answer, selectedEdges }
 };
 
 export const getShortestPath = (graph, input) => {

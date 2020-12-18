@@ -18,14 +18,28 @@
         Analyze
       </button>
     </div>
-    <Graph :graph="graph"/>
+    <Graph :graph="graph" :highlightedEdges="highlightedEdges"/>
     <div class="graph-profile px-3">
       <div class="grapher-title">Graph info</div>
       <div class="graph-info-content">
-        <div>Min. spanning tree: {{ minST }}</div>
-        <div>Max. spanning tree: {{ maxST }}</div>
+        <div>Min. spanning tree: {{ minST.answer }}</div>
+        <div>Max. spanning tree: {{ maxST.answer }}</div>
         <div>Eulerian path: </div>
         <div>Hamiltonian walk: </div>
+        <div class="flex flex-row items-center">
+          <button 
+            class="grapher-btn mr-2"
+            @click="setHighlightedEdges(minST.selectedEdges)"
+          > 
+            Show Min. ST
+          </button>
+          <button 
+            class="grapher-btn ml-2"
+            @click="setHighlightedEdges(maxST.selectedEdges)"
+          > 
+            Show Max. ST
+          </button>
+        </div>
       </div>
 
       <div class="grapher-title mt-12">Shortest path query</div>
@@ -70,12 +84,13 @@ export default {
     return {
       input: "",
       shortestPathQuery: "",
-      minST: null,
-      maxST: null,
+      minST: {answer: null, selectedEdges: null},
+      maxST: {answer: null, selectedEdges: null},
       graph: {},
       shortestPath: null,
       graphNodes: [],
-      graphLinks: []
+      graphLinks: [],
+      highlightedEdges: [],
     }
   },
   methods: {
@@ -92,6 +107,9 @@ export default {
     },
     findShortestPath() {
       this.shortestPath = getShortestPath(this.graph, this. shortestPathQuery)
+    },
+    setHighlightedEdges(edges) {
+      this.highlightedEdges = edges;
     }
   }
 }
@@ -123,6 +141,7 @@ textarea {
   font-weight: 600;
   color: #4056a1;
   background: #efe2ba;
+  text-align: center;
 }
 .grapher-btn:hover {
   background: #D79922;
