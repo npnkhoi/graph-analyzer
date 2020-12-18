@@ -7,8 +7,8 @@ const addEdge = (graph, id, a, b, weight=null) => {
     throw "InputError: Node index out of range. Please check your node id again."
   }
   if (weight) {
-    graph.adj[a].push([b, weight])
-    graph.adj[b].push([a, weight])
+    graph.adj[a].push([b, weight, id])
+    graph.adj[b].push([a, weight, id])
     graph.edges.push({
       start: a,
       end: b,
@@ -125,8 +125,25 @@ export const getShortestPath = (graph, input) => {
   console.log('shortest path returning');
   console.log('done DJ', source, dist);
   if (dist[sink] === INF) {
-    return "[Graph Input Error] Two nodes are not connected"
-  } else {
-    return dist[sink]
+    return {
+      answer: "[Graph Input Error] Two nodes are not connected",
+      selectedEdges: null,
+    }
+  }
+  let node = sink
+  const path = []
+
+  while (node != source) {
+    graph.adj[node].forEach((edge) => {
+      if (dist[edge[0]] + edge[1] === dist[node]) {
+        node = edge[0]
+        path.push(edge[2])
+      }
+    })
+  }
+
+  return {
+    answer: dist[sink],
+    selectedEdges: path,
   }
 }

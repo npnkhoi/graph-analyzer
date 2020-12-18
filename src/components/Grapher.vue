@@ -56,7 +56,7 @@
           />
         </div>
         <div>
-          Shortest path of [{{shortestPathQuery}}]: {{shortestPath}}
+          Shortest path of [{{shortestPathQuery}}]: {{shortestPath.answer}}
         </div>
         <div class="flex justify-center">
           <button 
@@ -84,10 +84,10 @@ export default {
     return {
       input: "",
       shortestPathQuery: "",
-      minST: {answer: null, selectedEdges: null},
+      minST: {answer: null, selectedEdges: []},
       maxST: {answer: null, selectedEdges: null},
       graph: {},
-      shortestPath: null,
+      shortestPath: {answer: 'Loading', selectedEdges: null},
       graphNodes: [],
       graphLinks: [],
       highlightedEdges: [],
@@ -107,6 +107,7 @@ export default {
     },
     findShortestPath() {
       this.shortestPath = getShortestPath(this.graph, this. shortestPathQuery)
+      this.setHighlightedEdges(this.shortestPath.selectedEdges)
     },
     setHighlightedEdges(edges) {
       this.highlightedEdges = edges;
